@@ -38,14 +38,19 @@ public class ForumUtil {
 		Map<Long, ForumMessage> maps = new HashMap();
 		try {
 			ForumService forumService = (ForumService) WebAppUtil.getService("forumService", sc);
+			System.out.println(forumService);
 			PageIterator pageIterator = forumService.getForums(0, 10);
+			int i = 0;
 			while (pageIterator.hasNext()) {
 				Forum forum = forumService.getForum((Long) pageIterator.next());
 				listF.add(forum.getForumState().getLastPost().getMessageId());
+				System.out.println(i++);
 				maps.put(forum.getForumState().getLastPost().getMessageId(), forum.getForumState().getLastPost());
 			}
+			System.out.println("maps size: "+maps.size());
 			return maps.get(Collections.max(listF));
 		} catch (Exception ex) {
+//			ex.printStackTrace();
 		}
 		return null;
 
